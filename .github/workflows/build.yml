@@ -1,30 +1,21 @@
 name: build
 
 on:
-  workflow_dispatch:
-    inputs:
-      ref:
-        description: 'The branch, tag or SHA to checkout'
-        required: true
-        default: 'master'
-      nodeVer:
-        description: 'nodejs version'
-        required: true
-        default: 'x'
+  - push
+  - pull_request
 jobs:
-  ci:
+  build-ref:
+    name: build ref
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node:
-          - 12
-          - x
-    name: CI Node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.ref }}
       - uses: actions/setup-node@v2-beta
         with:
-          node-version: ${{ matrix.node }}
-      - run: npm i -g yarn
-      - run: yarn install
-      - run: yarn ci
+          node-version: ${{ github.event.inputs.nodeVer }}
+      - run: yarn packs
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.event.inputs.ref }}
+          path: ./
