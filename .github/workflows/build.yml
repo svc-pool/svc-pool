@@ -1,9 +1,5 @@
-# This is a basic workflow that is manually triggered
-
 name: build
 
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
   workflow_dispatch:
     inputs:
@@ -16,15 +12,19 @@ on:
         required: true
         default: 'x'
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "greet"
-  greet:
-    # The type of runner that the job will run on
+  build-ref:
+    name: build ref
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
-    - name: Send greeting
-      run: echo "Hello ${{ github.event.inputs.name }}"
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.ref }}
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: ${{ github.event.inputs.nodeVer }}
+      - run: yarn packs
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.event.inputs.ref }}
+          path: /
