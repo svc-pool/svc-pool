@@ -25,14 +25,12 @@ async function setVer(hash: string) {
 	const exe = execa(
 		`yarn workspaces foreach --exclude root version -f 0.0.0-${hash}`,
 	)
-	exe.stdout?.pipe(process.stdout)
-	await exe
+	console.log(await exe)
 }
 
 async function delivery() {
 	const exe = execa(`yarn workspaces foreach --exclude root npm publish`)
-	exe.stdout?.pipe(process.stdout)
-	await exe
+	console.log(await exe)
 }
 
 async function main() {

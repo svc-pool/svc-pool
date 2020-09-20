@@ -46,9 +46,9 @@ jobs:
         run: yarn config set npmAuthToken "$env:GITHUB_TOKEN"
       - run: yarn delivery-expr
       # NPM
-      - run: yarn config set npmPublishRegistry 'https://registry.npmjs.org/'
-      - shell: pwsh
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn config set npmAuthToken "$env:NPM_TOKEN"
-      - run: yarn delivery-expr
+      # - run: yarn config set npmPublishRegistry 'https://registry.npmjs.org/'
+      # - shell: pwsh
+      #   env:
+      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #   run: yarn config set npmAuthToken "$env:NPM_TOKEN"
+      # - run: yarn delivery-expr
