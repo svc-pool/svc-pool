@@ -2,15 +2,18 @@ name: packs
 
 on:
   workflow_dispatch:
-  inputs:
-    tag:
-      description: 'The branch, tag or SHA to checkout'
-      required: true
-      default: 'master'
-    nodeVer:
-      description: 'nodejs version'
-      required: true
-      default: 'x'
+    inputs:
+      tag:
+        description: 'The branch, tag or SHA to checkout'
+        required: true
+        default: 'master'
+      nodeVer:
+        description: 'nodejs version'
+        required: true
+        default: 'x'
+jobs:
+  name: packs
+  runs-on: ubuntu-latest
   steps:
     - uses: actions/checkout@v2
       with:
