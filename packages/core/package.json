@@ -3,11 +3,11 @@
 	"version": "1.1.0-alpha.1",
 	"description": "> TODO: description",
 	"author": "Thanh Nguyen <ndthanhdev@outlook.com>",
-	"homepage": "https://github.com/ndthanhdev/plugin-pool#readme",
+	"homepage": "https://github.com/svc-pool/svc-pool#readme",
 	"license": "ISC",
 	"main": "./dist/umd/index.js",
 	"module": "./dist/esm/index.js",
-	"repository": "git+https://github.com/ndthanhdev/plugin-pool.git",
+	"repository": "git+https://github.com/svc-pool/svc-pool.git",
 	"scripts": {
 		"_build:umd": "yarn run tsc -p etc/tsconfig.umd.json",
 		"_build:esm": "yarn run tsc -p etc/tsconfig.esm.json",
@@ -18,7 +18,7 @@
 		"prepublishOnly": "yarn run build"
 	},
 	"bugs": {
-		"url": "https://github.com/ndthanhdev/plugin-pool/issues"
+		"url": "https://github.com/svc-pool/svc-pool/issues"
 	},
 	"devDependencies": {
 		"@rollup/plugin-node-resolve": "^9.0.0",
