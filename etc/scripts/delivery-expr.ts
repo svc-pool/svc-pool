@@ -24,13 +24,16 @@ async function getShortHash() {
 async function setVer(hash: string) {
 	const pr = execa(
 		`yarn workspaces foreach --exclude root version -f 0.0.0-${hash}`,
+		{ shell: true },
 	)
 	pr.stdout?.pipe(process.stdout)
 	await pr
 }
 
 async function delivery() {
-	const pr = execa(`yarn workspaces foreach --exclude root npm publish`)
+	const pr = execa(`yarn workspaces foreach --exclude root npm publish`, {
+		shell: true,
+	})
 	pr.stdout?.pipe(process.stdout)
 
 	await pr
