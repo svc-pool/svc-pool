@@ -21,7 +21,7 @@
 		"ci": "yarn run run-s _ci:build _ci:test",
 		"_packs:packs": "yarn workspaces foreach pack",
 		"packs": "yarn run run-s _ci:build _packs:packs",
-		"delivery": "yarn workspaces foreach npm publish"
+		"delivery-expr": "yarn workspaces foreach npm publish --tag 0.0.0-$TAG"
 	},
 	"devDependencies": {
 		"@types/jest": "^26.0.13",
