@@ -18,6 +18,8 @@
 		"// required scripts: build, ci": "",
 		"build": "yarn workspaces foreach run build",
 		"ci": "yarn workspaces foreach run ci",
+		"_packs:packs": "yarn workspaces foreach pack",
+		"packs": "yarn run run-s build _packs:packs",
 		"_cd:pub": "yarn workspaces foreach npm publish",
 		"cd": "yarn run run-s build _cd:pub"
 	},

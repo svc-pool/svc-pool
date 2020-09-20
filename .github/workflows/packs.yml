@@ -1,0 +1,25 @@
+name: packs
+
+on:
+  workflow_dispatch:
+  inputs:
+    tag:
+      description: 'The branch, tag or SHA to checkout'
+      required: true
+      default: 'master'
+    nodeVer:
+      description: 'nodejs version'
+      required: true
+      default: 'x'
+  steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.inputs.ref }}
+    - uses: actions/setup-node@v2-beta
+      with:
+        node-version: ${{ github.event.inputs.nodeVer }}
+    - run: yarn packs
+    - uses: actions/upload-artifact@v2
+      with:
+        name: packs
+        path: packages/*/package.tgz
