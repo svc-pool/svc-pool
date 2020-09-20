@@ -25,15 +25,15 @@ async function setVer(hash: string) {
 	const pr = execa(
 		`yarn workspaces foreach --exclude root version -f 0.0.0-${hash}`,
 	)
-	pr.stderr?.pipe(process.stderr)
-	console.log(await pr)
+	pr.stdout?.pipe(process.stdout)
+	await pr
 }
 
 async function delivery() {
 	const pr = execa(`yarn workspaces foreach --exclude root npm publish`)
-	pr.stderr?.pipe(process.stderr)
+	pr.stdout?.pipe(process.stdout)
 
-	console.log(await pr)
+	await pr
 }
 
 async function main() {
