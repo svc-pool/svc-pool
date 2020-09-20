@@ -21,7 +21,7 @@
 		"ci": "yarn run run-s build test",
 		"_packs:packs": "yarn workspaces foreach pack",
 		"packs": "yarn run run-s build _packs:packs",
-		"delivery-expr": "yarn run ts-node etc/scripts/delivery-expr.ts"
+		"delivery-expr": "ts-node etc/scripts/delivery-expr.ts"
 	},
 	"devDependencies": {
 		"@types/jest": "^26.0.13",
