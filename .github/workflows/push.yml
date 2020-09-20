@@ -1,17 +1,16 @@
-name: CI
+name: Push
 
 on:
   - push
-  - pull_request
 jobs:
-  ci:
+  push:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node:
           - 12
           - x
-    name: CI Node ${{ matrix.node }}
+    name: Push Node ${{ matrix.node }} SHA ${{ github.event.after }} 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2-beta

@@ -14,7 +14,7 @@ on:
 
 jobs:
   build-ref:
-    name: Build Ref
+    name: Build ${{ github.event.inputs.ref }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: ${{ github.event.inputs.nodeVer }}
       - run: yarn install
+      - run: yarn build
       - run: yarn packs
       - uses: actions/upload-artifact@v2
         with:
