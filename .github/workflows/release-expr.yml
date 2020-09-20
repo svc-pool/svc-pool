@@ -44,6 +44,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: yarn config set npmAuthToken "$env:GITHUB_TOKEN"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: svc-pool ${{ github.sha }}
+          path: ./
       - run: yarn delivery-expr
       # NPM
       # - run: yarn config set npmPublishRegistry 'https://registry.npmjs.org/'
