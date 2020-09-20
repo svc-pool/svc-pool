@@ -33,7 +33,7 @@ async function delivery(hash: string) {
 async function main() {
 	try {
 		const shortHash = await getShortHash()
-		delivery(shortHash)
+	 	await	delivery(shortHash)
 	} catch (error) {
 		console.error(error)
 		process.exit(-1)
