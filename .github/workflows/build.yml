@@ -23,6 +23,7 @@ jobs:
       - uses: actions/setup-node@v2-beta
         with:
           node-version: ${{ github.event.inputs.nodeVer }}
+      - run: yarn install
       - run: yarn packs
       - uses: actions/upload-artifact@v2
         with:
