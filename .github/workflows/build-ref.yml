@@ -3,7 +3,7 @@ name: build-ref
 on:
   workflow_dispatch:
     inputs:
-      tag:
+      ref:
         description: 'The branch, tag or SHA to checkout'
         required: true
         default: 'master'
