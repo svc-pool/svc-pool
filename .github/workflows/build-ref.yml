@@ -1,19 +1,19 @@
-name: build-ref
+name: build ref
 
 on:
-  - workflow_dispatch:
-      inputs:
-        ref:
-          description: 'The branch, tag or SHA to checkout'
-          required: true
-          default: 'master'
-        nodeVer:
-          description: 'nodejs version'
-          required: true
-          default: 'x'
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'The branch, tag or SHA to checkout'
+        required: true
+        default: 'master'
+      nodeVer:
+        description: 'nodejs version'
+        required: true
+        default: 'x'
 jobs:
   build-ref:
-    name: build-ref
+    name: build ref
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
