@@ -1,28 +1,30 @@
-name: build
+# This is a basic workflow that is manually triggered
 
+name: Manual workflow 2
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
 on:
   workflow_dispatch:
+    # Inputs the workflow accepts.
     inputs:
       name:
+        # Friendly description to be shown in the UI instead of 'name'
         description: 'Person to greet'
+        # Default value if no value is explicitly provided
+        default: 'World'
+        # Input has to be provided for the workflow to run
         required: true
-        default: 'Mona the Octocat'
-      home:
-        description: 'location'
-        required: false
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build-ref:
-    name: build ref
+  # This workflow contains a single job called "greet"
+  greet:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.inputs.ref }}
-      - uses: actions/setup-node@v2-beta
-        with:
-          node-version: ${{ github.event.inputs.nodeVer }}
-      - run: yarn packs
-      - uses: actions/upload-artifact@v2
-        with:
-          name: ${{ github.event.inputs.ref }}
-          path: ./
+    # Runs a single command using the runners shell
+    - name: Send greeting
+      run: echo "Hello ${{ github.event.inputs.name }}"
