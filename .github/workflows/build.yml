@@ -3,14 +3,13 @@ name: build
 on:
   workflow_dispatch:
     inputs:
-      ref:
-        description: 'The branch, tag or SHA to checkout'
+      name:
+        description: 'Person to greet'
         required: true
-        default: 'master'
-      nodeVer:
-        description: 'nodejs version'
-        required: true
-        default: 'x'
+        default: 'Mona the Octocat'
+      home:
+        description: 'location'
+        required: false
 jobs:
   build-ref:
     name: build ref
