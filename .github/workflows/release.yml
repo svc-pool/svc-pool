@@ -1,0 +1,31 @@
+name: release
+
+on: 
+  - release
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm i -g yarn
+      - run: yarn install
+      - run: yarn ci
+      # GPR
+      - run: yarn config set npmPublishRegistry 'https://npm.pkg.github.com/'
+      - shell: pwsh
+        env:
+          GPR_TOKEN: ${{ secrets.GPR_TOKEN }}
+        run: yarn config set npmAuthToken "$env:GPR_TOKEN"
+      - run: yarn delivery
+      # NPM
+      - run: yarn config set npmPublishRegistry 'https://registry.npmjs.org/'
+      - shell: pwsh
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn config set npmAuthToken "$env:NPM_TOKEN"
+      - run: yarn delivery

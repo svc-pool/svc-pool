@@ -1,0 +1,35 @@
+{
+	"name": "@svc-pool/core",
+	"version": "1.1.0-alpha.1",
+	"description": "> TODO: description",
+	"author": "Thanh Nguyen <ndthanhdev@outlook.com>",
+	"homepage": "https://github.com/ndthanhdev/plugin-pool#readme",
+	"license": "ISC",
+	"main": "./dist/umd/index.js",
+	"module": "./dist/esm/index.js",
+	"repository": "git+https://github.com/ndthanhdev/plugin-pool.git",
+	"scripts": {
+		"_build:umd": "yarn run tsc -p etc/tsconfig.umd.json",
+		"_build:esm": "yarn run tsc -p etc/tsconfig.esm.json",
+		"_build:clean": "yarn run rimraf ./dist",
+		"build": "yarn run run-s _build:clean _build:esm _build:umd",
+		"test": "yarn run jest -c etc/jest.config.js",
+		"test:debug": "yarn run --inspect-brk jest -c etc/jest.config.js --runInBand",
+		"prepublishOnly": "yarn run build"
+	},
+	"bugs": {
+		"url": "https://github.com/ndthanhdev/plugin-pool/issues"
+	},
+	"devDependencies": {
+		"@rollup/plugin-node-resolve": "^9.0.0",
+		"@rollup/plugin-typescript": "^5.0.2",
+		"@types/jest": "^26.0.13",
+		"jest": "^26.4.2",
+		"npm-run-all": "^4.1.5",
+		"rimraf": "^3.0.2",
+		"rollup": "^2.26.10",
+		"ts-jest": "^26.3.0",
+		"tslib": "^2.0.1",
+		"typescript": "^4.0.2"
+	}
+}
