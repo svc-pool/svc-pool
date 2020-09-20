@@ -21,10 +21,16 @@ async function getShortHash() {
 	return shortHash
 }
 
-async function delivery(hash: string) {
+async function setVer(hash: string) {
 	const exe = execa(
-		`yarn workspaces foreach --exclude root npm publish --tag 0.0.0-${hash}`,
+		`yarn workspaces foreach --exclude root version -f 0.0.0-${hash}`,
 	)
+	exe.stdout?.pipe(process.stdout)
+	await exe
+}
+
+async function delivery() {
+	const exe = execa(`yarn workspaces foreach --exclude root npm publish`)
 	exe.stdout?.pipe(process.stdout)
 	await exe
 }
@@ -32,7 +38,8 @@ async function delivery(hash: string) {
 async function main() {
 	try {
 		const shortHash = await getShortHash()
-		await delivery(shortHash)
+		await setVer(shortHash)
+		await delivery()
 	} catch (error) {
 		console.error(error)
 		process.exit(-1)
