@@ -20,7 +20,6 @@
 		"build:_": "rollup -c",
 		"build": "",
 		"test": "",
-		"ci": "",
 		"prepublishOnly": "npm run build"
 	},
 	"bugs": {

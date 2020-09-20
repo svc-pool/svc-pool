@@ -15,8 +15,7 @@
 		"build": "yarn run run-s _build:clean _build:esm _build:umd",
 		"test": "yarn run jest -c etc/jest.config.js",
 		"test:debug": "yarn run --inspect-brk jest -c etc/jest.config.js --runInBand",
-		"prepublishOnly": "yarn run build",
-		"ci": "yarn run run-s build test"
+		"prepublishOnly": "yarn run build"
 	},
 	"bugs": {
 		"url": "https://github.com/ndthanhdev/plugin-pool/issues"
