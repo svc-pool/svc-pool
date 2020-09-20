@@ -16,11 +16,11 @@
 		"lint": "yarn run eslint --ext js,jsx,ts,tsx -c .eslintrc.js ./",
 		"lint:fix": "run-s \"lint --fix\"",
 		"// required scripts: build, test": "",
-		"_ci:build": "yarn workspaces foreach run build",
-		"_ci:test": "yarn workspaces foreach run test",
-		"ci": "yarn run run-s _ci:build _ci:test",
+		"build": "yarn workspaces foreach run build",
+		"test": "yarn workspaces foreach run test",
+		"ci": "yarn run run-s build test",
 		"_packs:packs": "yarn workspaces foreach pack",
-		"packs": "yarn run run-s _ci:build _packs:packs",
+		"packs": "yarn run run-s build _packs:packs",
 		"delivery-expr": "yarn workspaces foreach npm publish --tag 0.0.0-$TAG"
 	},
 	"devDependencies": {
