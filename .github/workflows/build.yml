@@ -1,4 +1,4 @@
-name: build ref
+name: Build Ref
 
 on:
   workflow_dispatch:
@@ -11,9 +11,10 @@ on:
         description: 'nodejs version'
         required: true
         default: 'x'
+
 jobs:
   build-ref:
-    name: build ref
+    name: Build Ref
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -25,5 +26,5 @@ jobs:
       - run: yarn packs
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.event.inputs.ref }}
+          name: svc-pool ${{ github.sha }}
           path: ./
