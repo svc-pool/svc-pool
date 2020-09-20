@@ -22,18 +22,17 @@ async function getShortHash() {
 }
 
 async function delivery(hash: string) {
-	const exe = execa(`yarn workspaces foreach --exclude root npm publish --tag 0.0.0-${hash}`, {
-		env: { FORCE_COLOR: 'true' },
-	})
+	const exe = execa(
+		`yarn workspaces foreach --exclude root npm publish --tag 0.0.0-${hash}`,
+	)
 	exe.stdout?.pipe(process.stdout)
-	exe.stderr?.pipe(process.stderr)
 	await exe
 }
 
 async function main() {
 	try {
 		const shortHash = await getShortHash()
-	 	await	delivery(shortHash)
+		await delivery(shortHash)
 	} catch (error) {
 		console.error(error)
 		process.exit(-1)
