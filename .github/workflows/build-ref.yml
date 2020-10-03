@@ -11,14 +11,14 @@ on:
         description: 'Nodejs version'
         required: true
         default: 'x'
-      deliveryExperimental:
-        description: 'Should delivery a experimental to registry'
-        required: true
-        default: false
       runTest:
         description: 'Should run test after build'
-        required: true
+        required: false
         default: true
+      deliveryExperimental:
+        description: 'Should delivery a experiment to registry'
+        required: false
+        default: false
 
 jobs:
   build:
@@ -40,7 +40,7 @@ jobs:
       - run: yarn test
         if: ${{ github.event.inputs.runTest }}
   delivery-exp:
-    name: Build ${{ github.event.inputs.ref }}
+    name: Delivery experiment ${{ github.event.inputs.ref }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
