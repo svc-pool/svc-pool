@@ -1,8 +1,13 @@
-name: CD
+name: Delivery experimental
 
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      - v2
+  pull_request_target:
+    branches:
+      - v2
+
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -11,7 +16,7 @@ jobs:
         node:
           - 12
           - x
-    name: CI on Node ${{ matrix.node }}
+    name: CI node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2-beta
@@ -21,8 +26,8 @@ jobs:
       - run: yarn install
       - run: yarn ci
 
-  delivery_experimental:
-    name: Delivery experimental
+  delivery-experiment:
+    name: Delivery experiment
     needs: ci
     runs-on: ubuntu-latest
     steps:
@@ -30,22 +35,19 @@ jobs:
         with:
           fetch-depth: 0 # yarn set version issue
 
-      - name: Set delivery info
-        run: |
-          echo "DELIVERY_VERSION=${{ env.DELIVERY_VERSION }}" >> $GITHUB_ENV
-          echo "NPM_TAG=${{ env.NPM_TAG }}" >> $GITHUB_ENV
-        env:
-          DELIVERY_VERSION: 0.0.0-experimental-${{ github.sha }}
-          NPM_TAG: experimental
-
-      - run: echo ${{ env.DELIVERY_VERSION }}
-
       - uses: actions/setup-node@v2-beta
         with:
           check-latest: true
 
       - run: yarn install
       - run: yarn build
+
+      - name: Set delivery info
+        run: |
+          echo "DELIVERY_VERSION=0.0.0-exp-${{ github.sha }}" >> $GITHUB_ENV
+          echo "NPM_TAG=experimental" >> $GITHUB_ENV
+
+      - run: echo "start delivery version ${{ env.DELIVERY_VERSION }}"
 
       # Delivery to NPM
       # - shell: pwsh
@@ -62,13 +64,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: yarn delivery
-
-      - name: Comment published
-        if: ${{ github.event.pull_request }}
-        uses: jungwinter/comment@v1
-        with:
-          type: create
-          body: |
-            published ${{ env.DELIVERY_VERSION }}`
-          issue_number: ${{ github.event.pull_request.number }}
-          token: ${{ secrets.GITHUB_TOKEN }}

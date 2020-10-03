@@ -16,7 +16,7 @@ on:
         required: true
         default: false
       runTest:
-        description: 'Should run test'
+        description: 'Should run test after build'
         required: true
         default: true
 
@@ -29,21 +29,18 @@ jobs:
         with:
           ref: ${{ github.event.inputs.ref }}
 
-      - name: Set delivery info
-        run: |
-          echo "DELIVERY_VERSION=${{ env.DELIVERY_VERSION }}" >> $GITHUB_ENV
-          echo "NPM_TAG=${{ env.NPM_TAG }}" >> $GITHUB_ENV
-        env:
-          DELIVERY_VERSION: >
-            0.0.0-experimental-
-            ${{ join([github.job, github.sha, github.run_id, github.run_number], '-') }}
-          NPM_TAG: experimental
-
       - uses: actions/setup-node@v2-beta
         with:
           node-version: ${{ github.event.inputs.nodeVersion }}
       - run: yarn install
       - run: yarn build
+
+      - name: Set delivery info
+        run: |
+          echo "DELIVERY_VERSION=0.0.0-exp-${{ github.sha }}" >> $GITHUB_ENV
+          echo "NPM_TAG=experimental" >> $GITHUB_ENV
+
+      - run: echo "start delivery version ${{ env.DELIVERY_VERSION }}"
 
       # Delivery to NPM
       # - shell: pwsh
