@@ -1,0 +1,70 @@
+name: CD
+
+on:
+  - push
+  - pull_request
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node:
+          - 12
+          - x
+    name: CI on Node ${{ matrix.node }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+      - run: yarn install
+      - run: yarn ci
+
+  delivery_experimental:
+    name: Delivery experimental
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # yarn set version issue
+
+      - name: Set delivery info
+        uses: allenevans/set-env@v1.0.0
+        env:
+          DELIVERY_VERSION: 0.0.0-experimental-${{ github.sha }}
+          NPM_TAG: experimental
+
+      - uses: actions/setup-node@v2-beta
+        with:
+          check-latest: true
+
+      - run: yarn install
+      - run: yarn build
+
+      # Delivery to NPM
+      # - shell: pwsh
+      #   env:
+      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #   run: yarn config set npmAuthToken "$env:NPM_TOKEN"
+      # - run: yarn delivery
+
+      # Delivery to GPR
+      - run: yarn config set npmPublishRegistry 'https://npm.pkg.github.com/'
+      - run: yarn config set npmAuthToken "$env:GITHUB_TOKEN"
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: yarn delivery
+
+      - name: Comment published
+        if: ${{ github.event.pull_request }}
+        uses: thollander/actions-comment-pull-request@1
+        with:
+          type: create
+          body: |
+            published ${{ env.DELIVERY_VERSION }}`
+          issue_number: ${{ github.event.pull_request.number }}
+          token: ${{ secrets.GITHUB_TOKEN }}
