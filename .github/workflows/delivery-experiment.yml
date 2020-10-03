@@ -1,4 +1,4 @@
-name: Delivery experimental
+name: Delivery experiment
 
 on:
   push:

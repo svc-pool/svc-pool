@@ -39,5 +39,4 @@ jobs:
       - run: yarn build
       - uses: actions/upload-artifact@v2
         with:
-          name: fork-log-n${{ matrix.node }}-${{ github.sha }}.tgz
-          path: package.tgz
+          path: packages/**/*.package.tgz
