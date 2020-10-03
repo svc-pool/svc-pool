@@ -1,4 +1,4 @@
-name: Delivery experimental
+name: Delivery experiment
 
 on:
   push:
@@ -58,9 +58,9 @@ jobs:
 
       # Delivery to GPR
       - run: yarn config set npmPublishRegistry 'https://npm.pkg.github.com/'
-      - run: yarn config set npmAuthToken "$env:GITHUB_TOKEN"
+      - run: yarn config set npmAuthToken "$env:GPR_TOKEN"
         shell: pwsh
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GPR_TOKEN: ${{ secrets.GPR_TOKEN }}
 
       - run: yarn delivery

@@ -16,11 +16,11 @@
 		"lint": "yarn run eslint --ext js,jsx,ts,tsx -c .eslintrc.js ./",
 		"lint:fix": "run-s \"lint --fix\"",
 		"// required scripts: build, test": "",
-		"build": "yarn workspaces foreach run build",
+		"_build:build": "yarn workspaces foreach run build",
+		"_build:pack": "yarn workspaces foreach pack -o %s.package.tgz ",
+		"build": "run-s _build:build _build:pack",
 		"test": "yarn workspaces foreach run test",
 		"ci": "yarn run run-s build test",
-		"_packs:packs": "yarn workspaces foreach pack",
-		"packs": "yarn run run-s build _packs:packs",
 		"delivery": "yarn run ts-node etc/scripts/delivery.ts"
 	},
 	"devDependencies": {

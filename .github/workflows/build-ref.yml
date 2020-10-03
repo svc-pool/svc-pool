@@ -1,4 +1,4 @@
-name: Build Ref
+name: Build ref
 
 on:
   workflow_dispatch:
@@ -11,43 +11,57 @@ on:
         description: 'Nodejs version'
         required: true
         default: 'x'
-      deliveryExperimental:
-        description: 'Should delivery a experimental to registry'
-        required: true
-        default: false
       runTest:
         description: 'Should run test after build'
-        required: true
+        required: false
         default: true
+      deliveryExperimental:
+        description: 'Should delivery a experiment to registry'
+        required: false
+        default: false
 
 jobs:
-  build-ref:
-    name: Build on ${{ github.event.inputs.ref }}
+  build:
+    name: Build ${{ github.event.inputs.ref }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.inputs.ref }}
-
       - uses: actions/setup-node@v2-beta
         with:
           node-version: ${{ github.event.inputs.nodeVersion }}
+          check-latest: true
       - run: yarn install
       - run: yarn build
-
+      - uses: actions/upload-artifact@v2
+        with:
+          path: packages/**/*.package.tgz
+      - run: yarn test
+        if: ${{ github.event.inputs.runTest }}
+  delivery-exp:
+    name: Delivery experiment ${{ github.event.inputs.ref }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.ref }}
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: ${{ github.event.inputs.nodeVersion }}
+          check-latest: true
+      - run: yarn install
+      - run: yarn build
       - name: Set delivery info
         run: |
           echo "DELIVERY_VERSION=0.0.0-exp-${{ github.sha }}" >> $GITHUB_ENV
           echo "NPM_TAG=experimental" >> $GITHUB_ENV
-
       - run: echo "start delivery version ${{ env.DELIVERY_VERSION }}"
-
       # Delivery to NPM
       # - shell: pwsh
       #   run: yarn config set npmAuthToken "$env:NPM_TOKEN"
       # - run: yarn delivery
       #   if: ${{ github.event.inputs.deliveryExperimental }}
-
       # Delivery to GH Registry
       - run: yarn config set npmPublishRegistry 'https://npm.pkg.github.com/'
       - shell: pwsh
@@ -56,8 +70,3 @@ jobs:
         run: yarn config set npmAuthToken "$env:GITHUB_TOKEN"
       - run: yarn delivery
         if: ${{ github.event.inputs.deliveryExperimental }}
-
-      - run: echo published ${{ env.DELIVERY_VERSION }}
-
-      - run: yarn test
-        if: ${{ github.event.inputs.runTest }}
