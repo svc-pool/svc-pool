@@ -30,11 +30,13 @@ jobs:
           ref: ${{ github.event.inputs.ref }}
 
       - name: Set delivery info
-        uses: allenevans/set-env@v1.0.0
+        run: |
+          echo "DELIVERY_VERSION=${{ env.DELIVERY_VERSION }}" >> $GITHUB_ENV
+          echo "NPM_TAG=${{ env.NPM_TAG }}" >> $GITHUB_ENV
         env:
           DELIVERY_VERSION: >
             0.0.0-experimental-
-            ${{ join(github.job, github.sha, github.run_id, github.run_number) }}
+            ${{ join([github.job, github.sha, github.run_id, github.run_number], '-') }}
           NPM_TAG: experimental
 
       - uses: actions/setup-node@v2-beta
