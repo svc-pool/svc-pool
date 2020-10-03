@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - v2
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node:
+          - 12
+          - x
+    name: CI on Node ${{ matrix.node }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+      - run: yarn install
+      - run: yarn ci
+  pack:
+    name: Pack
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node:
+          - 12
+          - x
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          check-latest: true
+      - run: yarn install
+      - run: yarn build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: fork-log-n${{ matrix.node }}-${{ github.sha }}.tgz
+          path: package.tgz
