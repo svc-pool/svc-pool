@@ -55,13 +55,13 @@ export function createSvcDef<R extends Registry>(
 
 	const { deps, desc, ...other } = defOrFactory
 
-	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 	let theDeps: FullDepDef<R> = {}
 
 	if (Array.isArray(deps)) {
 		theDeps = deps.reduce((prev, cur) => {
-			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			return {
 				...prev,

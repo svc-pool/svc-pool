@@ -5,13 +5,13 @@ type Registry = {
 	b: string
 }
 
-it(createSvcDef.name, () => {
+it('createSvcDef', () => {
 	const def = createSvcDef<Registry>('a', () => 'a0')
 
 	expect(def.deps).toBeDefined()
 })
 
-it(createSvcDef.name + 'array deps', () => {
+it('createSvcDef' + 'array deps', () => {
 	const def = createSvcDef<Registry>('b', {
 		deps: ['a'],
 		factory: () => 'b0',
@@ -20,7 +20,7 @@ it(createSvcDef.name + 'array deps', () => {
 	expect(def.deps?.['a']).toBeDefined()
 })
 
-it(createSvcDef.name + 'map deps', () => {
+it('createSvcDef' + 'map deps', () => {
 	const def = createSvcDef<Registry>('b', {
 		deps: {
 			a: true,
@@ -31,7 +31,7 @@ it(createSvcDef.name + 'map deps', () => {
 	expect(def.deps?.['a']).toBeDefined()
 })
 
-it(createSvcDef.name + 'falsy deps', () => {
+it('createSvcDef' + 'falsy deps', () => {
 	const depsUndefined = createSvcDef<Registry>('b', {
 		factory: () => 'b0',
 	})
