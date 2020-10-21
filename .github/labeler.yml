@@ -3,3 +3,5 @@ loader: packages/loader/**/*
 chore:
   - etc/scripts/**/*
   - .github/**/*
+docs:
+  - "**/*.mdx?"
