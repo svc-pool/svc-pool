@@ -1,4 +1,4 @@
-name: Delivery experiment
+name: CD
 
 on:
   push:
