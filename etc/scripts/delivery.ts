@@ -9,13 +9,16 @@ async function setVer(version: string) {
 	await pr
 }
 
-async function delivery(npmTag = 'experimental') {
-	const pr = execa(
-		`yarn workspaces foreach --exclude root npm publish --tag ${npmTag}`,
-		{
-			shell: true,
-		},
-	)
+async function delivery(npmTag?: string) {
+	let script = 'yarn workspaces foreach --exclude root npm publish'
+
+	if (npmTag) {
+		script += ` --tag ${npmTag}`
+	}
+
+	const pr = execa(script, {
+		shell: true,
+	})
 	pr.stdout?.pipe(process.stdout)
 
 	await pr
@@ -24,7 +27,7 @@ async function delivery(npmTag = 'experimental') {
 async function main() {
 	try {
 		await setVer(String(process.env.DELIVERY_VERSION))
-		await delivery(String(process.env.NPM_TAG))
+		await delivery(process.env.NPM_TAG)
 	} catch (error) {
 		console.error(error)
 		process.exit(-1)
