@@ -1,3 +1,5 @@
-script: etc/scripts/**/*
 core: packages/core/**/*
 loader: packages/loader/**/*
+chore:
+  - etc/scripts/**/*
+  - .github/**/*
