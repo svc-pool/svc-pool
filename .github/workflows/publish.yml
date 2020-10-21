@@ -1,9 +1,8 @@
-name: Delivery experiment
+name: Publish
 
 on:
-  push:
-    branches:
-      - v2
+  release:
+    types: [published]
 
 jobs:
   ci:
@@ -23,28 +22,29 @@ jobs:
       - run: yarn install
       - run: yarn ci
 
-  delivery-experiment:
-    name: Delivery experiment
+  release:
+    name: Release
     needs: ci
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0 # yarn set version issue
-
       - uses: actions/setup-node@v2-beta
         with:
           check-latest: true
-
       - run: yarn install
       - run: yarn build
 
-      - name: Set delivery info
+      # Set delivery info
+      - name: Set delivery version
         run: |
-          echo "DELIVERY_VERSION=0.0.0-exp-${{ github.sha }}" >> $GITHUB_ENV
+          echo "DELIVERY_VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+      - name: Set delivery tag alpha
+        if: ${{ github.event.release.prerelease }}
+        run: /
           echo "NPM_TAG=experimental" >> $GITHUB_ENV
-
-      - run: echo "start delivery version ${{ env.DELIVERY_VERSION }}"
+      # End set delivery info
 
       # Delivery to NPM
       # - shell: pwsh
