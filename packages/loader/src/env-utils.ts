@@ -1,14 +1,14 @@
 export function isAMD() {
-	const _window = window as any
-	const _require = _window.requirejs || _window.require
+	const global = globalThis as any
+	const _require = global.requirejs || global.require
 
 	return (
 		typeof _require === 'function' &&
-		typeof _window.define === 'function' &&
-		!!_window.define.amd
+		typeof global.define === 'function' &&
+		!!global.define.amd
 	)
 }
 
 export function isES() {
-	return 'noModule' in HTMLScriptElement.prototype
+	return 'noModule' in (globalThis as any).HTMLScriptElement.prototype
 }

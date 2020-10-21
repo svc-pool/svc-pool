@@ -20,7 +20,7 @@
 		"_build:pack": "yarn workspaces foreach --exclude root pack -o %s.package.tgz ",
 		"build": "run-s _build:build _build:pack",
 		"test": "yarn workspaces foreach --exclude root run test",
-		"ci": "yarn run run-s build test",
+		"ci": "yarn run run-s lint build test",
 		"delivery": "yarn run ts-node etc/scripts/delivery.ts"
 	},
 	"devDependencies": {

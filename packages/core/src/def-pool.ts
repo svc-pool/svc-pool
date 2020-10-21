@@ -50,7 +50,7 @@ function createSvcPool<R extends Registry>(
 	return { getServices }
 }
 
-export async function resolveDefs<R extends Registry = {}>(
+export async function resolveDefs<R extends Registry = unknown>(
 	...defs: FullSvcDef<R, Point<R>>[]
 ): Promise<ServicePool<R>> {
 	const table = createTable(defs)
