@@ -1,0 +1,3 @@
+script: etc/scripts/**/*
+core: packages/core/**/*
+loader: packages/loader/**/*
