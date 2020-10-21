@@ -47,11 +47,11 @@ jobs:
       - run: echo "start delivery version ${{ env.DELIVERY_VERSION }}"
 
       # Delivery to NPM
-      # - shell: pwsh
-      #   env:
-      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #   run: yarn config set npmAuthToken "$env:NPM_TOKEN"
-      # - run: yarn delivery
+      - shell: pwsh
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn config set npmAuthToken "$env:NPM_TOKEN"
+      - run: yarn delivery
 
       # Delivery to GPR
       - run: yarn config set npmPublishRegistry 'https://npm.pkg.github.com/'
