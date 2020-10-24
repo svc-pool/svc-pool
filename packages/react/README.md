@@ -1,11 +1,11 @@
-# `plugin-pool-react`
+# `@svc-pool/react`
 
 > TODO: description
 
 ## Usage
 
 ```
-const pluginPoolReact = require('plugin-pool-react');
+const pluginPoolReact = require('@svc-pool/react');
 
 // TODO: DEMONSTRATE API
 ```
