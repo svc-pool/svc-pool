@@ -806,7 +806,6 @@ __metadata:
     gh-pages: ^3.1.0
     jest: ^26.4.2
     npm-run-all: ^4.1.5
-    ramda: ^0.27.1
     requirejs: ^2.3.6
     rimraf: ^3.0.2
     rollup: ^2.26.10
@@ -817,6 +816,8 @@ __metadata:
     ts-loader: ^8.0.3
     ts-node: ^9.0.0
     typescript: ^4.0.2
+  peerDependencies:
+    "@svc-pool/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -6511,13 +6512,6 @@ __metadata:
   version: 5.1.1
   resolution: "quick-lru@npm:5.1.1"
   checksum: fafb2b2fa1a948d6f2e88d4a60571be70b316d9b0be857d24fba0ac28fc31acebf535b643fe968473d689f8c655bcb2a0e4da67912f571059a4e4eb15740b021
-  languageName: node
-  linkType: hard
-
-"ramda@npm:^0.27.1":
-  version: 0.27.1
-  resolution: "ramda@npm:0.27.1"
-  checksum: 9aa4655dffdca66f8ba2ceabebe51996d6c75f6a2fb901a150885ace22c5950c211dd589868780b7a91c1443771702634d4370e7572d8c63c60e4b4f61aa57a9
   languageName: node
   linkType: hard
 

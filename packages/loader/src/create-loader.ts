@@ -1,9 +1,8 @@
-import { FullSvcDef, PointNames } from '@svc-pool/core'
+import { FullSvcDef, Registry, Point } from '@svc-pool/core'
 import { isAMD, isES } from './env-utils'
 
-export type Loader = {
-	loadSvcDef(pluginPath: string): Promise<FullSvcDef<PointNames>[]>
-	loadSvcDefs(pluginPaths: string[]): Promise<FullSvcDef<PointNames>[]>[]
+export type Loader<R extends Registry> = {
+	loadSvcDefs(pluginPath: string | string[]): Promise<FullSvcDef<R, Point<R>>[]>
 }
 
 export type DynamicImport = {
@@ -11,8 +10,8 @@ export type DynamicImport = {
 }
 
 function _createAMDImport() {
-	const _window = window as any
-	const _require = _window.requirejs || _window.require
+	const _globalThis = globalThis as any
+	const _require = _globalThis.requirejs || _globalThis.require
 
 	const _import = (path: string) =>
 		new Promise((resolve, reject) => _require([path], resolve, reject))
@@ -27,7 +26,7 @@ export function createAMDImport(): DynamicImport {
 }
 
 function _createESImport() {
-	const _import = (path: string) => import(path).then(m => m.default)
+	const _import = (path: string) => import(path).then((m) => m.default)
 
 	return _import
 }
@@ -48,17 +47,36 @@ function createDynamicImport() {
 	throw 'Not in ES or AMD environment'
 }
 
-export function createLoader(dynamicImport?: DynamicImport): Loader {
+export function createLoader<R extends Registry>(
+	dynamicImport?: DynamicImport,
+): Loader<R> {
 	const _dynamicImport = dynamicImport || createDynamicImport()
 
-	const loadSvcDef = async (pluginPath: string) => {
-		return _dynamicImport(pluginPath) as Promise<FullSvcDef<PointNames>[]>
+	const loadPath = async (pluginPath: string) => {
+		let defOrDefs: any = await _dynamicImport(pluginPath)
+
+		if (!Array.isArray(defOrDefs)) {
+			defOrDefs = [defOrDefs]
+		}
+
+		return defOrDefs as FullSvcDef<R, Point<R>>[]
 	}
 
-	const loadSvcDefs = (pluginPaths: string[]) => pluginPaths.map(loadSvcDef)
+	const loadPaths = (pluginPaths: string[]) =>
+		Promise.all(pluginPaths.map(loadPath)).then((defss) => defss.flat())
+
+	async function loadSvcDefs(pathOrPaths: string | string[]) {
+		let paths: string[]
+		if (Array.isArray(pathOrPaths)) {
+			paths = [...pathOrPaths]
+		} else {
+			paths = [pathOrPaths]
+		}
+
+		return await loadPaths(paths)
+	}
 
 	return {
-		loadSvcDef,
 		loadSvcDefs,
 	}
 }

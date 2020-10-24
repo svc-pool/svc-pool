@@ -5,8 +5,8 @@
 	"author": "Thanh Nguyen <ndthanhdev@outlook.com>",
 	"homepage": "https://github.com/svc-pool/svc-pool#readme",
 	"license": "MIT",
-	"main": "dist/index.js",
-	"module": "dist/index.mjs",
+	"main": "./dist/umd/index.js",
+	"module": "./dist/esm/index.js",
 	"directories": {
 		"lib": "lib",
 		"test": "__tests__"
@@ -16,16 +16,20 @@
 		"url": "git+https://github.com/svc-pool/svc-pool.git"
 	},
 	"scripts": {
-		"build:clean": "rimraf ./dist",
-		"build:_": "rollup -c",
-		"build": "",
-		"test": "",
+		"_build:clean": "rimraf ./dist",
+		"_build:umd": "yarn run tsc -p etc/tsconfig.umd.json",
+		"_build:esm": "yarn run tsc -p etc/tsconfig.esm.json",
+		"build": "yarn run run-s _build:clean _build:esm _build:umd",
+		"test": "yarn run jest -c etc/jest.config.js",
 		"prepublishOnly": "npm run build"
 	},
 	"bugs": {
 		"url": "https://github.com/svc-pool/svc-pool/issues"
 	},
 	"steal": {},
+	"peerDependencies": {
+		"@svc-pool/core": "*"
+	},
 	"devDependencies": {
 		"@svc-pool/core": "workspace:*",
 		"@types/execa": "^2.0.0",
@@ -36,7 +40,6 @@
 		"gh-pages": "^3.1.0",
 		"jest": "^26.4.2",
 		"npm-run-all": "^4.1.5",
-		"ramda": "^0.27.1",
 		"requirejs": "^2.3.6",
 		"rimraf": "^3.0.2",
 		"rollup": "^2.26.10",
@@ -47,8 +50,5 @@
 		"ts-loader": "^8.0.3",
 		"ts-node": "^9.0.0",
 		"typescript": "^4.0.2"
-	},
-	"dependencies": {
-		"ramda": "^0.27.1"
 	}
 }
