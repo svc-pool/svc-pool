@@ -1,7 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const requirejs = require('requirejs')
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const base = require('../../configs/jest.config')
 
 requirejs.config({
 	baseUrl: __dirname,
@@ -9,10 +7,14 @@ requirejs.config({
 })
 
 module.exports = {
-	...base,
+	preset: 'ts-jest',
 	testEnvironment: 'jsdom',
+	collectCoverage: true,
+	rootDir: '../../packages/loader/',
+	collectCoverageFrom: ['src/**/*'],
 	globals: {
-		// simulate AMD env
-		requirejs,
+		'ts-jest': {
+			tsConfig: 'packages/loader/tsconfig.json',
+		},
 	},
 }

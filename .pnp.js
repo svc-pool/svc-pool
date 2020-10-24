@@ -1020,7 +1020,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["gh-pages", "npm:3.1.0"],
             ["jest", "npm:26.4.2"],
             ["npm-run-all", "npm:4.1.5"],
-            ["ramda", "npm:0.27.1"],
             ["requirejs", "npm:2.3.6"],
             ["rimraf", "npm:3.0.2"],
             ["rollup", "npm:2.26.10"],
@@ -7404,15 +7403,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/quick-lru-npm-5.1.1-e38e0edce3-fafb2b2fa1.zip/node_modules/quick-lru/",
           "packageDependencies": [
             ["quick-lru", "npm:5.1.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["ramda", [
-        ["npm:0.27.1", {
-          "packageLocation": "./.yarn/cache/ramda-npm-0.27.1-5818f2cb83-9aa4655dff.zip/node_modules/ramda/",
-          "packageDependencies": [
-            ["ramda", "npm:0.27.1"]
           ],
           "linkType": "HARD",
         }]

@@ -1,11 +1,12 @@
 {
 	"include": ["../src/**/*"],
 	"compilerOptions": {
-		"outDir": "../dist/umd",
+		"outDir": "../dist/esm",
 		"target": "ES2015",
-		"module": "umd",
+		"module": "ES2020",
 		"lib": ["esnext"],
 		"declaration": true,
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"moduleResolution": "node",
 	}
 }

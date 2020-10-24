@@ -3,6 +3,8 @@
 	"compilerOptions": {
 		"target": "es5",
 		"module": "commonjs",
+		// https://github.com/facebook/jest/issues/8218#issuecomment-486275996
+		"moduleResolution": "node",
 		"lib": ["esnext"],
 		"declaration": true,
 		"declarationMap": true,

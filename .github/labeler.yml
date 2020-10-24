@@ -4,4 +4,4 @@ chore:
   - etc/scripts/**/*
   - .github/**/*
 docs:
-  - "**/*.mdx?"
+  - "**/*.{md,mdx}"

@@ -23,7 +23,7 @@ export type ServiceFactory<R extends Registry, P extends Point<R>> = (
 
 export type FullSvcDef<R extends Registry, P extends Point<R>> = {
 	point: Point<R>
-	desc: string
+	desc?: string
 	deps: FullDepDef<R>
 	factory: ServiceFactory<R, P>
 }
@@ -47,7 +47,7 @@ export function createSvcDef<R extends Registry>(
 	if (typeof defOrFactory === 'function') {
 		return {
 			point,
-			desc: '',
+			desc: undefined,
 			deps: {} as FullDepDef<R>,
 			factory: defOrFactory,
 		}
