@@ -7,7 +7,10 @@
 	"license": "ISC",
 	"main": "./dist/umd/index.js",
 	"module": "./dist/esm/index.js",
-	"repository": "git+https://github.com/svc-pool/svc-pool.git",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/svc-pool/svc-pool.git"
+	},
 	"scripts": {
 		"_build:umd": "yarn run tsc -p etc/tsconfig.umd.json",
 		"_build:esm": "yarn run tsc -p etc/tsconfig.esm.json",

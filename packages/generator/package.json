@@ -3,8 +3,12 @@
 	"version": "1.1.0-alpha.6",
 	"main": "dist/index.js",
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/svc-pool/svc-pool.git"
+	},
 	"bin": {
-		"svc-p": "./dist/bin/index.js"
+		"svc-p": "dist/bin/index.js"
 	},
 	"scripts": {
 		"build": "run-s _build:clean _build:tsc",
