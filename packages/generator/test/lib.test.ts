@@ -4,7 +4,7 @@ import { TestProjConfFile, TestTempDir } from './constants'
 test(listRegistryFiles.name, async () => {
 	const r = await listRegistryFiles(TestProjConfFile)
 
-	expect(r.length).toBe(3)
+	expect(r.length).toBe(1)
 })
 
 test(

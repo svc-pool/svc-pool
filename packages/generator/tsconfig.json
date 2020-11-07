@@ -3,10 +3,6 @@
 	"compilerOptions": {
 		"target": "ES2015",
 		"module": "commonjs",
-		"esModuleInterop": true,
-		"outDir": "./dist/",
-		"declaration": true,
-		"declarationDir": "./dist/"
-	},
-	"exclude": ["node_modules/**/*"]
+		"esModuleInterop": true
+	}
 }

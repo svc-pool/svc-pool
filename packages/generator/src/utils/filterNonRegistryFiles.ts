@@ -1,21 +1,58 @@
-import { SourceFile } from 'ts-morph'
-import { filter } from 'ramda'
+import * as tsm from 'ts-morph'
+import * as R from 'ramda'
 import { createLogger } from './logger'
-import { isWrappedRegistryFile, WrappedRegistryFile } from './guards'
+import * as Guards from './guards'
 
 const logger = createLogger(filterNonRegistryFiles.name)
-export default function filterNonRegistryFiles(srcFiles: SourceFile[]) {
+
+export default function filterNonRegistryFiles(srcFiles: tsm.SourceFile[]) {
 	const log = logger.child(filterNonRegistryFiles)
 
-	const r: WrappedRegistryFile[] = filter(srcFile => {
-		const path = srcFile.getFilePath()
-		if (!isWrappedRegistryFile(srcFile)) {
-			log.verbose(`filtered out ${path}`)
-			return false
+	const registryFiles = new Set<tsm.SourceFile>()
+
+	const svcDefFiles = new Set<Guards.SvcDefFile>()
+
+	for (const srcFile of srcFiles) {
+		log.verbose(`checking ${srcFile.getFilePath()}`)
+
+		if (Guards.isSvcDefFile(srcFile)) {
+			log.verbose(`added ${srcFile.getFilePath()}`)
+			svcDefFiles.add(srcFile)
 		}
-		log.verbose(`selected ${path}`)
-		return true
-	}, srcFiles)
+	}
+
+	for (const svcDefFile of svcDefFiles) {
+		registryFiles.add(findRegistryFile(svcDefFile))
+	}
+
+	let r = Array.from(registryFiles)
 	log.verbose(`total: ${r.length}`)
-	return r;
+
+	return r
+}
+
+function findRegistryFile(svcDefFile: Guards.SvcDefFile): tsm.SourceFile {
+	const exportCreateSvcDef = svcDefFile
+		.getDefaultExportSymbolOrThrow()
+		?.getValueDeclarationOrThrow()
+
+	if (!tsm.Node.isExportAssignment(exportCreateSvcDef)) {
+		throw 'not isExportAssignment'
+	}
+
+	const callCreateSvcDevExp = exportCreateSvcDef.getExpression()
+
+	if (!tsm.Node.isCallExpression(callCreateSvcDevExp)) {
+		throw 'not isCallExpression'
+	}
+
+	const registryNode = callCreateSvcDevExp
+		.getTypeArguments()[0]
+		?.getDescendants()[0]
+
+	if (!registryNode || !tsm.Node.isIdentifier(registryNode)) {
+		throw 'not a SvcDefFile'
+	}
+
+	return registryNode.getDefinitions()[0].getSourceFile()
 }

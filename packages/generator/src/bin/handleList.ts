@@ -1,14 +1,14 @@
 import chalk from 'chalk'
 import path from 'path'
+import * as tsm from 'ts-morph'
 import { listRegistryFiles } from '..'
-import { WrappedRegistryFile } from '../utils/guards'
 import { createLogger } from '../utils/logger'
 import { pipe, curry, __ } from 'ramda'
 
-function printRegFileOutput(regFiles: WrappedRegistryFile[], baseDir: string) {
+function printRegFileOutput(regFiles: tsm.SourceFile[], baseDir: string) {
 	const getRelativePathToBaseDir = curry(path.relative)(baseDir, __)
 
-	regFiles.forEach(file =>
+	regFiles.forEach((file) =>
 		pipe(
 			() => file.compilerNode.fileName,
 			getRelativePathToBaseDir,
@@ -50,7 +50,7 @@ export default async function handleList(tsConfigPath?: string) {
 
 	try {
 		const files = await listRegistryFiles(abConfPth)
-		log.info(files)
+		log.verbose(files)
 		printRegFileOutput(files, baseDir)
 	} catch (error) {
 		log.error(error)

@@ -1,5 +1,5 @@
 import { Project } from 'ts-morph'
-import { pipe, then } from 'ramda'
+import { pipe, andThen } from 'ramda'
 import { createTsConfigPath } from './createTsConfigPath'
 
 export function createSourceProject(
@@ -14,7 +14,7 @@ export function createSourceProject(
 	if (typeof tsConfigFilePathOrProject === 'string') {
 		return pipe(
 			() => createTsConfigPath(tsConfigFilePathOrProject),
-			then(createProj),
+			andThen(createProj),
 		)()
 	}
 
