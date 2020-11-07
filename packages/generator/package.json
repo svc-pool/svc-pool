@@ -7,33 +7,37 @@
 		"svc-p": "./dist/bin/index.js"
 	},
 	"scripts": {
-		"build": "run-s build:clean build:_",
-		"build:_": "tsc -p tsconfig.prod.json",
-		"build:clean": "rimraf ./dist",
-		"test": "jest"
+		"build": "run-s _build:clean _build:tsc",
+		"_build:tsc": "tsc -p ./etc/tsconfig.prod.json",
+		"_build:clean": "rimraf ./dist",
+		"test": "yarn run jest -c ./etc/jest.config.js"
 	},
 	"dependencies": {
 		"@types/debug": "^4.1.5",
-		"@types/jsonfile": "^5.0.0",
-		"@types/node": "^13.5.0",
-		"chalk": "^3.0.0",
-		"cpy": "^8.0.0",
-		"debug": "^4.1.1",
-		"jsonfile": "^5.0.0",
+		"@types/jsonfile": "^6.0.0",
+		"@types/node": "^14.14.6",
+		"@types/ramda": "^0.27.32",
+		"chalk": "^4.1.0",
+		"cpy": "^8.1.1",
+		"debug": "^4.2.0",
+		"fork-log": "^1.0.4",
+		"jsonfile": "^6.1.0",
 		"load-json-file": "^6.2.0",
-		"ramda": "^0.26.1",
-		"ts-morph": "^6.0.2",
+		"ramda": "^0.27.1",
+		"ts-morph": "^8.1.2",
 		"tsconfig": "^7.0.0",
-		"typescript": "^3.7.5",
-		"yargs": "^15.1.0"
+		"typescript": "^4.0.5",
+		"yargs": "^16.1.0"
 	},
 	"devDependencies": {
-		"@types/jest": "^24.9.1",
-		"execa": "^4.0.0",
-		"jest": "^25.1.0",
+		"@svc-pool/core": "workspace:*",
+		"@types/jest": "^26.0.15",
+		"@types/yargs": "^15.0.9",
+		"execa": "^4.1.0",
+		"jest": "^26.6.2",
 		"npm-run-all": "^4.1.5",
-		"rimraf": "^3.0.1",
-		"ts-jest": "^25.0.0",
-		"ts-node": "^8.6.2"
+		"rimraf": "^3.0.2",
+		"ts-jest": "^26.4.3",
+		"ts-node": "^9.0.0"
 	}
 }

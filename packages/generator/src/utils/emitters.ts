@@ -1,13 +1,12 @@
-import { Project, CompilerOptionsContainer } from 'ts-morph'
-import { WrappedRegistryFile } from './guards'
+import * as tsm from 'ts-morph'
 import { pipe } from 'ramda'
 import { createLogger } from './logger'
 
 const projLog = createLogger(emitRegistries)
 
 export interface EmitRegistriesOptions {
-	compilerOptions: CompilerOptionsContainer
-	registryFiles: WrappedRegistryFile[]
+	compilerOptions: tsm.CompilerOptionsContainer
+	registryFiles: tsm.SourceFile[]
 	outDir: string
 	emitTsConfig?: boolean
 }
@@ -26,7 +25,7 @@ export function emitRegistries({
 		log.verbose('compilerOptions:')
 		log.verbose(compilerOptions)
 
-		const slimProj = new Project({
+		const slimProj = new tsm.Project({
 			compilerOptions: {
 				...compilerOptions,
 				outDir,
@@ -36,7 +35,7 @@ export function emitRegistries({
 			addFilesFromTsConfig: false,
 		})
 
-		function importFile(file: WrappedRegistryFile) {
+		function importFile(file: tsm.SourceFile) {
 			const path = file.getFilePath()
 
 			slimProj.addSourceFileAtPath(path)
@@ -51,7 +50,7 @@ export function emitRegistries({
 		return slimProj
 	}
 
-	function resolveDepFiles(proj: Project) {
+	function resolveDepFiles(proj: tsm.Project) {
 		const log = projLog.child(resolveDepFiles)
 
 		log.verbose('begin')
@@ -59,7 +58,7 @@ export function emitRegistries({
 		log.verbose(`resolving deps`)
 		const addedFiles = proj.resolveSourceFileDependencies()
 
-		addedFiles.forEach(file => {
+		addedFiles.forEach((file) => {
 			log.verbose(`imported dep: ${file.getFilePath()}`)
 		})
 
@@ -68,14 +67,14 @@ export function emitRegistries({
 		return proj
 	}
 
-	function emitProj(proj: Project) {
+	function emitProj(proj: tsm.Project) {
 		const log = projLog.child(emitProj)
 		log.verbose(`emitting ${proj.getSourceFiles().length} files`)
 
-		return proj.emit().then(emitResult => {
+		return proj.emit().then((emitResult) => {
 			emitResult
 				.getDiagnostics()
-				.forEach(diagnostic => log.verbose(diagnostic.getMessageText()))
+				.forEach((diagnostic) => log.verbose(diagnostic.getMessageText()))
 			log.verbose('emitted')
 			return proj
 		})

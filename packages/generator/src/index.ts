@@ -1,4 +1,4 @@
-import { pipe, then } from 'ramda'
+import { pipe, andThen } from 'ramda'
 import { emitRegistries, EmitRegistriesOptions } from './utils/emitters'
 import { createSourceProject } from './utils/createSourceProject'
 import filterNonRegistryFiles from './utils/filterNonRegistryFiles'
@@ -8,8 +8,8 @@ export const listRegistryFiles = (
 ) =>
 	pipe(
 		createSourceProject,
-		then(srcProj => srcProj.getSourceFiles()),
-		then(filterNonRegistryFiles),
+		andThen(srcProj => srcProj.getSourceFiles()),
+		andThen(filterNonRegistryFiles),
 	)(tsconfigPathOrProject)
 
 type GenerateSrcOptions = Omit<
@@ -24,15 +24,15 @@ export const generateSrc = (options: GenerateSrcOptions) => {
 
 	return pipe(
 		createSourceProject,
-		then(srcProj => ({
+		andThen(srcProj => ({
 			srcProj,
 			registryFiles: srcProj.getSourceFiles(),
 		})),
-		then(({ registryFiles, ...other }) => ({
+		andThen(({ registryFiles, ...other }) => ({
 			...other,
 			registryFiles: filterNonRegistryFiles(registryFiles),
 		})),
-		then(({ srcProj, registryFiles }) =>
+		andThen(({ srcProj, registryFiles }) =>
 			emitRegistries({
 				compilerOptions: srcProj.compilerOptions,
 				registryFiles,

@@ -1,7 +1,7 @@
 {
 	"include": ["src/**/*", "test/**/*"],
 	"compilerOptions": {
-		"target": "es5",
+		"target": "ES2015",
 		"module": "commonjs",
 		// https://github.com/facebook/jest/issues/8218#issuecomment-486275996
 		"moduleResolution": "node",

@@ -1,6 +1,6 @@
 # `@svc-pool/generator`
 
-> TODO: description
+Generate a npm module only contain declaration of all registries that defined in project
 
 ## Usage
 

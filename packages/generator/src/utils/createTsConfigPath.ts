@@ -1,5 +1,5 @@
 import { ts } from 'ts-morph'
-import { pipe, then } from 'ramda'
+import { pipe, andThen } from 'ramda'
 import { resolve } from 'path'
 import isDir from './isDir'
 
@@ -15,7 +15,7 @@ export function createTsConfigPath(tsConfigFilePathOrProject: string) {
 	return pipe(
 		() => absPth,
 		isDir,
-		then(isDir => {
+		andThen(isDir => {
 			if (isDir) {
 				return handleDir(absPth)
 			}

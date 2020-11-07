@@ -1,93 +1,54 @@
-import { ts, CompilerNodeToWrappedType, Node, SourceFile } from 'ts-morph'
-import { all, any } from 'ramda'
+import * as tsm from 'ts-morph'
+import * as R from 'ramda'
+import { createLogger } from './logger'
 
-export const RegistryModuleName = '@svc-pool/core/registry'
+const logger = createLogger('Guards')
 
-type RegistryInterfaceDeclaration = Omit<ts.InterfaceDeclaration, 'members'> & {
-	members: (Omit<ts.PropertySignature, 'type'> & {
-		type: ts.ArrayTypeNode
-	})[]
-}
-
-export type RegistryDeclaration = Omit<ts.ModuleDeclaration, 'body'> & {
-	body: Omit<ts.ModuleBlock, 'statements'> & {
-		statements: ts.NodeArray<RegistryInterfaceDeclaration>
-	}
-}
-
-export type WrappedRegistryDeclaration = CompilerNodeToWrappedType<
-	RegistryDeclaration
->
-
-function isRegistryPropertySignature(node: ts.Node) {
-	if (
-		ts.isPropertySignature(node) &&
-		node.type &&
-		ts.isArrayTypeNode(node.type)
-	) {
-		return true
+function isCreateSvcDefDef(defInfo: tsm.DefinitionInfo) {
+	if (defInfo.getName() !== 'createSvcDef') {
+		return false
 	}
 
-	return false
+	return true
 }
 
-function isRegistryInterfaceDeclaration(
-	node: ts.Statement,
-): node is RegistryDeclaration {
-	if (
-		ts.isInterfaceDeclaration(node) &&
-		node.name.escapedText === 'Registry' &&
-		node.modifiers &&
-		node.modifiers[0].kind === ts.SyntaxKind.ExportKeyword &&
-		node.modifiers[1].kind === ts.SyntaxKind.DefaultKeyword &&
-		all(isRegistryPropertySignature, node.members)
-	) {
-		return true
+const isSvcDefCallLogger = logger.child(isCreateSvcDefCall.name)
+export function isCreateSvcDefCall(node: tsm.Node) {
+	if (!tsm.Node.isExportAssignment(node)) {
+		isSvcDefCallLogger.verbose('not an exp assign')
+		return false
 	}
 
-	return false
-}
+	const callExpression = node.getExpression()
 
-export function isRegistryDeclaration(
-	node: ts.Node,
-): node is RegistryDeclaration {
-	if (
-		ts.isModuleDeclaration(node) &&
-		node.name.text === RegistryModuleName &&
-		node.body &&
-		ts.isModuleBlock(node.body) &&
-		node.body.statements &&
-		node.body.statements.length > 0 &&
-		all<ts.Statement>(isRegistryInterfaceDeclaration, node.body.statements)
-	) {
-		return true
+	if (!tsm.Node.isCallExpression(callExpression)) {
+		isSvcDefCallLogger.verbose('not a call')
+
+		return false
 	}
 
-	return false
+	const registryType = callExpression.getTypeArguments()[0]?.getDescendants()[0]
+
+	if (!tsm.Node.isIdentifier(registryType)) {
+		isSvcDefCallLogger.verbose('not an ident')
+		return false
+	}
+
+	const createSvcDefExp = callExpression.getExpression()
+
+	if (!tsm.Node.isIdentifier(createSvcDefExp)) {
+		return false
+	}
+
+	const definitions = createSvcDefExp.getDefinitions()
+
+	return R.any(isCreateSvcDefDef, definitions)
 }
 
-export function isWrappedRegistryDeclaration(
-	wrappedNode: Node,
-): wrappedNode is WrappedRegistryDeclaration {
-	const cNode = wrappedNode.compilerNode
+export type SvcDefFile = {} & tsm.SourceFile
 
-	return isRegistryDeclaration(cNode)
-}
+export function isSvcDefFile(srcFile: tsm.SourceFile): srcFile is SvcDefFile {
+	const exportValue = srcFile.getDefaultExportSymbol()?.getValueDeclaration()
 
-export type RegistryFile = Omit<ts.SourceFile, 'statements'> & {
-	statements: ts.NodeArray<RegistryDeclaration | ts.ImportDeclaration>
-}
-
-export type WrappedRegistryFile = CompilerNodeToWrappedType<RegistryFile>
-
-export function isRegistryFile(
-	srcFile: ts.SourceFile,
-): srcFile is RegistryFile {
-	return any(isRegistryDeclaration, srcFile.statements)
-}
-
-export function isWrappedRegistryFile(
-	srcFile: SourceFile,
-): srcFile is WrappedRegistryFile {
-	return isRegistryFile(srcFile.compilerNode)
+	return !!exportValue && isCreateSvcDefCall(exportValue)
 }
