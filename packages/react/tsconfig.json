@@ -1,11 +1,10 @@
 {
-	"include": ["test/**/*"],
+	"include": ["test/**/*", "etc/setupTests.ts"],
 	"compilerOptions": {
-		"target": "es5",
+		"target": "ESNext",
 		"module": "commonjs",
 		"lib": ["esnext", "dom"],
 		"jsx": "react",
-		"allowJs": true,
 		"skipLibCheck": true,
 		"esModuleInterop": true
 	}

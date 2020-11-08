@@ -12,43 +12,47 @@
 		"url": "git+https://github.com/svc-pool/svc-pool.git"
 	},
 	"scripts": {
-		"build": "run-s clean _build",
-		"_build": "rollup -c",
-		"clean": "rimraf ./dist",
-		"test": "jest",
-		"test:debug": "node --inspect-brk ./node_modules/jest/bin/jest --runInBand",
-		"prepublishOnly": "npm run build"
+		"_build:umd": "yarn run tsc -p etc/tsconfig.umd.json",
+		"_build:esm": "yarn run tsc -p etc/tsconfig.esm.json",
+		"_build:clean": "yarn run rimraf ./dist",
+		"build": "yarn run run-s _build:clean _build:esm _build:umd",
+		"test": "yarn run jest -c etc/jest.config.js",
+		"test:debug": "yarn run --inspect-brk jest -c etc/jest.config.js --runInBand",
+		"prepublishOnly": "yarn run build"
 	},
 	"bugs": {
 		"url": "https://github.com/svc-pool/svc-pool/issues"
 	},
 	"peerDependencies": {
-		"@svc-pool/core": "~1.0.0",
-		"react": "^16.12.0"
+		"@svc-pool/core": "*",
+		"react": "*"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.8.3",
-		"@babel/preset-env": "^7.8.3",
-		"@babel/preset-react": "^7.8.3",
-		"@types/enzyme": "^3.10.4",
-		"@types/enzyme-adapter-react-16": "^1.0.5",
-		"@types/jest": "^24.9.1",
-		"@types/react": "^16.9.19",
-		"@types/react-dom": "^16.9.5",
+		"@babel/core": "^7.12.3",
+		"@babel/preset-env": "^7.12.1",
+		"@babel/preset-react": "^7.12.5",
+		"@svc-pool/core": "workspace:*",
+		"@types/enzyme": "^3.10.8",
+		"@types/enzyme-adapter-react-16": "^1.0.6",
+		"@types/jest": "^26.0.15",
+		"@types/ramda": "^0.27.32",
+		"@types/react": "^16.9.56",
+		"@types/react-dom": "^16.9.9",
 		"enzyme": "^3.11.0",
-		"enzyme-adapter-react-16": "^1.15.2",
-		"gh-pages": "^2.2.0",
-		"jest": "^25.1.0",
+		"enzyme-adapter-react-16": "^1.15.5",
+		"gh-pages": "^3.1.0",
+		"jest": "^26.6.3",
 		"npm-run-all": "^4.1.5",
-		"ramda": "^0.26.1",
-		"react-dom": "^16.12.0",
-		"rimraf": "^3.0.0",
-		"rollup": "^1.29.1",
-		"rollup-plugin-babel": "^4.3.3",
+		"ramda": "^0.27.1",
+		"react": "^16.14.0",
+		"react-dom": "^16.9.0",
+		"rimraf": "^3.0.2",
+		"rollup": "^2.33.1",
+		"rollup-plugin-babel": "^4.4.0",
 		"rollup-plugin-commonjs": "^10.1.0",
 		"rollup-plugin-copy": "^3.3.0",
 		"rollup-plugin-node-resolve": "^5.2.0",
-		"ts-jest": "^25.0.0",
-		"typescript": "^3.7.5"
+		"ts-jest": "^26.4.3",
+		"typescript": "^4.0.5"
 	}
 }
