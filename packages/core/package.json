@@ -7,7 +7,10 @@
 	"license": "ISC",
 	"main": "./dist/umd/index.js",
 	"module": "./dist/esm/index.js",
-	"repository": "git+https://github.com/svc-pool/svc-pool.git",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/svc-pool/svc-pool.git"
+	},
 	"scripts": {
 		"_build:umd": "yarn run tsc -p etc/tsconfig.umd.json",
 		"_build:esm": "yarn run tsc -p etc/tsconfig.esm.json",
@@ -24,7 +27,7 @@
 		"@rollup/plugin-node-resolve": "^10.0.0",
 		"@rollup/plugin-typescript": "^6.1.0",
 		"@types/jest": "^26.0.15",
-		"jest": "^26.6.2",
+		"jest": "^26.6.3",
 		"npm-run-all": "^4.1.5",
 		"rimraf": "^3.0.2",
 		"rollup": "^2.33.1",

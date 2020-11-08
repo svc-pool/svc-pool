@@ -1,63 +1,56 @@
-import React from 'react'
-import {
-	createDefPool,
-	resolveDefPool,
-	ServicePool,
-	createSvcDef,
-	registerSvcDefs,
-} from '@svc-pool/core'
-import { pipe, then } from 'ramda'
+import * as React from 'react'
+import { resolveDefs, createSvcDef, SvcPool } from '@svc-pool/core'
+import { pipe, andThen } from 'ramda'
 import { mount } from 'enzyme'
-import { useSvcPool, useServices, SvcPoolContext } from '../dist'
+import { useSvcPool, useServices, Provider } from '../src'
 import { HookWrapper } from './utils'
 
-declare module '@svc-pool/core/registry' {
-	// eslint-disable-next-line jest/no-export
-	export default interface Registry {
-		'test-point': any[]
-	}
+interface TestRegistry {
+	'test-point': any
 }
 
-test('usePluginPool', async () => {
-	const getValueProvidedByHook = (svcPool: ServicePool) => {
-		let actual: ServicePool | undefined
+test('useSvcPool', async () => {
+	const getValueProvidedByHook = (svcPool: SvcPool<TestRegistry>) => {
+		let actual: SvcPool<TestRegistry> | undefined
 		const runner = () => {
 			// eslint-disable-next-line react-hooks/rules-of-hooks
 			actual = useSvcPool()
 		}
 
 		mount(
-			<SvcPoolContext.Provider value={svcPool}>
+			<Provider pool={svcPool}>
 				<HookWrapper callback={runner} />
-			</SvcPoolContext.Provider>,
+			</Provider>,
 		)
 
 		return { actual, svcPool }
 	}
 
 	const assert = pipe<
-		ServicePool,
+		SvcPool<TestRegistry>,
 		ReturnType<typeof getValueProvidedByHook>,
 		any
-	>(
-		getValueProvidedByHook,
-		({ actual, svcPool }) => expect(actual).toBe(svcPool),
+	>(getValueProvidedByHook, ({ actual, svcPool }) =>
+		expect(actual).toBe(svcPool),
 	)
 
 	await pipe(
-		createDefPool,
-		resolveDefPool,
-		then(assert),
-	)()
+		resolveDefs,
+		andThen(assert),
+	)(createSvcDef<TestRegistry>('test-point', () => 'a'))
 })
 
 test('useServices', async () => {
 	const pluginOfManyPoint = [
-		createSvcDef({ point: 'test-point', factory: () => 'service1' }),
-		createSvcDef({ point: 'test-point', factory: () => 'service2' }),
+		createSvcDef<TestRegistry>('test-point', {
+			factory: () => 'service1',
+		}),
+		createSvcDef<TestRegistry>('test-point', {
+			factory: () => 'service2',
+		}),
 	]
 
-	const getValueProvidedByHook = (svcPool: ServicePool) => {
+	const getValueProvidedByHook = (svcPool: SvcPool<TestRegistry>) => {
 		let actual: any[] | undefined
 		const runner = () => {
 			// eslint-disable-next-line react-hooks/rules-of-hooks
@@ -65,29 +58,19 @@ test('useServices', async () => {
 		}
 
 		mount(
-			<SvcPoolContext.Provider value={svcPool}>
+			<Provider pool={svcPool}>
 				<HookWrapper callback={runner} />
-			</SvcPoolContext.Provider>,
+			</Provider>,
 		)
 
 		return { actual }
 	}
 
-	const assert = pipe<
-		ServicePool,
-		ReturnType<typeof getValueProvidedByHook>,
-		any
-	>(
-		getValueProvidedByHook,
-		({ actual }) => {
-			expect(actual).toStrictEqual(['service1', 'service2'])
-		},
-	)
+	const assert = pipe(getValueProvidedByHook, ({ actual }) => {
+		expect(actual).toStrictEqual(['service1', 'service2'])
+	})
 
-	await pipe(
-		createDefPool,
-		defPool => registerSvcDefs(defPool, pluginOfManyPoint),
-		resolveDefPool,
-		then(assert),
-	)()
+	const svcPool = await resolveDefs(...pluginOfManyPoint)
+
+	assert(svcPool)
 })

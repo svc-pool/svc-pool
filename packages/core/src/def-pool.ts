@@ -7,7 +7,7 @@ import {
 } from './svc-def'
 import * as Exceptions from './exceptions'
 
-export type ServicePool<R extends Registry> = {
+export type SvcPool<R extends Registry> = {
 	getServices: (name: Point<R>) => SvcTable<R>[typeof name]
 }
 
@@ -36,7 +36,7 @@ function createTable<R extends Registry>(
 
 function createSvcPool<R extends Registry>(
 	resolved: SvcTable<R>,
-): ServicePool<R> {
+): SvcPool<R> {
 	const r = { ...resolved }
 
 	const getServices = (name: Point<R>): SvcTable<R>[typeof name] => {
@@ -52,7 +52,7 @@ function createSvcPool<R extends Registry>(
 
 export async function resolveDefs<R extends Registry = unknown>(
 	...defs: FullSvcDef<R, Point<R>>[]
-): Promise<ServicePool<R>> {
+): Promise<SvcPool<R>> {
 	const table = createTable(defs)
 	const points: Point<R>[] = Object.keys(table)
 

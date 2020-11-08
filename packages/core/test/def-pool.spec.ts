@@ -1,7 +1,7 @@
 import {
 	createSvcDef,
 	resolveDefs,
-	ServicePool,
+	SvcPool,
 	Registry,
 	Point,
 	ValueTypeOfSvc,
