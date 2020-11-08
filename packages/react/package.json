@@ -5,8 +5,8 @@
 	"author": "Thanh Nguyen <ndthanhdev@outlook.com>",
 	"homepage": "https://github.com/svc-pool/svc-pool#readme",
 	"license": "MIT",
-	"main": "dist/index.js",
-	"module": "dist/index.mjs",
+	"main": "dist/umd/index.js",
+	"module": "dist/esm/index.js",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/svc-pool/svc-pool.git"

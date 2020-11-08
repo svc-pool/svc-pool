@@ -4,6 +4,7 @@
 		"outDir": "../dist/umd",
 		"target": "ES2015",
 		"module": "umd",
+		"moduleResolution": "node",
 		"lib": ["esnext"],
 		"jsx": "react",
 		"declaration": true,
