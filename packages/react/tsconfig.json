@@ -3,6 +3,7 @@
 	"compilerOptions": {
 		"target": "ESNext",
 		"module": "commonjs",
+		"moduleResolution": "node",
 		"lib": ["esnext", "dom"],
 		"jsx": "react",
 		"skipLibCheck": true,
