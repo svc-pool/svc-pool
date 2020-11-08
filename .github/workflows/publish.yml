@@ -43,7 +43,7 @@ jobs:
       - name: Set delivery tag alpha
         if: ${{ github.event.release.prerelease }}
         run: /
-          echo "NPM_TAG=experimental" >> $GITHUB_ENV
+          echo "NPM_TAG=alpha" >> $GITHUB_ENV
       # End set delivery info
 
       # Delivery to NPM
