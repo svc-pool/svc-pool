@@ -1,10 +1,10 @@
 {
 	"include": ["../src/**/*"],
 	"compilerOptions": {
-		"outDir": "../dist/umd",
 		"target": "ES2015",
-		"module": "umd",
+		"module": "ESNext",
 		"lib": ["esnext"],
+		"jsx": "react",
 		"declaration": true,
 		"skipLibCheck": true
 	}
