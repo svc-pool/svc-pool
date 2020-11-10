@@ -26,7 +26,7 @@ export function createAMDImport(): DynamicImport {
 }
 
 function _createESImport() {
-	const _import = (path: string) => import(path).then((m) => m.default)
+	const _import = (path: string) => import(path)
 
 	return _import
 }
