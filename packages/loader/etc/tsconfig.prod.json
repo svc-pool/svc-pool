@@ -1,12 +1,9 @@
 {
 	"include": ["../src/**/*"],
 	"compilerOptions": {
-		"outDir": "../dist/esm",
 		"target": "ES2015",
 		"module": "ESNext",
-		"moduleResolution": "node",
 		"lib": ["esnext"],
-		"jsx": "react",
 		"declaration": true,
 		"skipLibCheck": true
 	}

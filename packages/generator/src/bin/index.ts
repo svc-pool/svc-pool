@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+// #!/usr/bin/env node
 import yargs from 'yargs'
 import { createLogger } from '../utils/logger'
 import handleList from './handleList'

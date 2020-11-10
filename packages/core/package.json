@@ -12,10 +12,9 @@
 		"url": "git+https://github.com/svc-pool/svc-pool.git"
 	},
 	"scripts": {
-		"_build:umd": "yarn run tsc -p etc/tsconfig.umd.json",
-		"_build:esm": "yarn run tsc -p etc/tsconfig.esm.json",
+		"_build:rollup": "yarn run rollup -c etc/rollup.config.js",
 		"_build:clean": "yarn run rimraf ./dist",
-		"build": "yarn run run-s _build:clean _build:esm _build:umd",
+		"build": "yarn run run-s _build:clean _build:rollup",
 		"test": "yarn run jest -c etc/jest.config.js",
 		"test:debug": "yarn run --inspect-brk jest -c etc/jest.config.js --runInBand",
 		"prepublishOnly": "yarn run build"
@@ -24,9 +23,8 @@
 		"url": "https://github.com/svc-pool/svc-pool/issues"
 	},
 	"devDependencies": {
-		"@rollup/plugin-node-resolve": "^10.0.0",
-		"@rollup/plugin-typescript": "^6.1.0",
 		"@types/jest": "^26.0.15",
+		"@wessberg/rollup-plugin-ts": "^1.3.8",
 		"jest": "^26.6.3",
 		"npm-run-all": "^4.1.5",
 		"rimraf": "^3.0.2",
