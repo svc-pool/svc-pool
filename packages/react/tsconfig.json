@@ -1,10 +1,11 @@
 {
-	"include": ["test/**/*", "etc/setupTests.ts"],
+	"include": ["test/**/*", "src/**/*", "etc/setupTests.ts"],
 	"compilerOptions": {
-		"target": "ESNext",
+		"target": "ES2015",
 		"module": "commonjs",
 		"moduleResolution": "node",
-		"lib": ["esnext", "dom"],
+		"lib": ["ESNext", "DOM"],
+		"importHelpers": true,
 		"jsx": "react",
 		"skipLibCheck": true,
 		"esModuleInterop": true

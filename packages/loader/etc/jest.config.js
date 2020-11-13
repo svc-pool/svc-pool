@@ -13,10 +13,6 @@ module.exports = {
 	rootDir: '../',
 	collectCoverageFrom: ['src/**/*'],
 	globals: {
-		// simulate AMD env
 		requirejs,
-		'ts-jest': {
-			packageJson: 'package.json',
-		},
 	},
 }

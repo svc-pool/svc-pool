@@ -4,9 +4,4 @@ module.exports = {
 	collectCoverage: true,
 	rootDir: '../',
 	collectCoverageFrom: ['src/**/*'],
-	globals: {
-		'ts-jest': {
-			packageJson: 'package.json',
-		},
-	},
 }
