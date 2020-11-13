@@ -1961,7 +1961,7 @@ __metadata:
     typescript: ^4.0.5
     yargs: ^16.1.0
   bin:
-    svc-p: dist/bin/index.js
+    svc-p: dist/bin.js
   languageName: unknown
   linkType: soft
 

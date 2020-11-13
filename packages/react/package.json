@@ -15,7 +15,7 @@
 		"_build:rollup": "yarn run rollup -c etc/rollup.config.js",
 		"_build:clean": "yarn run rimraf ./dist",
 		"build": "yarn run run-s _build:clean _build:rollup",
-		"test": "yarn run jest -c etc/jest.config.js",
+		"test": "yarn run jest -c ./etc/jest.config.js",
 		"test:debug": "yarn run --inspect-brk jest -c etc/jest.config.js --runInBand",
 		"prepublishOnly": "yarn run build"
 	},

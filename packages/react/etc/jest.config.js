@@ -4,11 +4,11 @@ module.exports = {
 	collectCoverage: true,
 	rootDir: '../',
 	collectCoverageFrom: ['src/**/*'],
-	globals: {
-		'ts-jest': {
-			packageJson: 'package.json',
-		},
-	},
+	// globals: {
+	// 	'ts-jest': {
+	// 		tsconfig: './tsconfig.json',
+	// 	},
+	// },
 
 	setupFilesAfterEnv: ['./etc/setupTests.ts'],
 }
