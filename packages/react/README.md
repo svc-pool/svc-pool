@@ -1,11 +1,3 @@
 # `@svc-pool/react`
 
-> TODO: description
-
-## Usage
-
-```
-const pluginPoolReact = require('@svc-pool/react');
-
-// TODO: DEMONSTRATE API
-```
+[svc-pool](https://github.com/svc-pool/svc-pool/) is for building plugable things, like micro-frontend :)

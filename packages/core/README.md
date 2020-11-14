@@ -1,11 +1,3 @@
 # `@svc-pool/core`
 
-> TODO: description
-
-## Usage
-
-```
-const pluginPool = require('@svc-pool/core');
-
-// TODO: DEMONSTRATE API
-```
+[svc-pool](https://github.com/svc-pool/svc-pool/) is for building plugable things, like micro-frontend :)
