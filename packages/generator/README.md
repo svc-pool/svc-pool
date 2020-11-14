@@ -1,11 +1,3 @@
 # `@svc-pool/generator`
 
-Generate a npm module only contain declaration of all registries that defined in project
-
-## Usage
-
-```
-const pluginPool = require('@svc-pool/generator');
-
-// TODO: DEMONSTRATE API
-```
+[svc-pool](https://github.com/svc-pool/svc-pool/) is for building plugable things, like micro-frontend :)

@@ -1,9 +1,3 @@
 # `@svc-pool/loader`
 
-> TODO: description
-
-## Usage
-
-```html
-<script src="require.js" data-main="@svc-pool/loader/umd/index.js"></script>
-```
+[svc-pool](https://github.com/svc-pool/svc-pool/) is for building plugable things, like micro-frontend :)
