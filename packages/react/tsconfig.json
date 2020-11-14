@@ -1,0 +1,13 @@
+{
+	"include": ["test/**/*", "src/**/*", "etc/setupTests.ts"],
+	"compilerOptions": {
+		"target": "ES2015",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"lib": ["ESNext", "DOM"],
+		"importHelpers": true,
+		"jsx": "react",
+		"skipLibCheck": true,
+		"esModuleInterop": true
+	}
+}

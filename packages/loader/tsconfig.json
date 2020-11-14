@@ -1,0 +1,16 @@
+{
+	"include": ["src/**/*", "test/**/*"],
+	"compilerOptions": {
+		"target": "ES2015",
+		"module": "commonjs",
+		// https://github.com/facebook/jest/issues/8218#issuecomment-486275996
+		"moduleResolution": "node",
+		"lib": ["ESNext", "DOM"],
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"strict": true,
+		"esModuleInterop": true,
+		"outDir": "dist"
+	}
+}

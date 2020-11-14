@@ -1,0 +1,9 @@
+core: packages/core/**/*
+loader: packages/loader/**/*
+generator: packages/generator/**/*
+react: packages/react/**/*
+chore:
+  - etc/scripts/**/*
+  - .github/**/*
+docs:
+  - '**/*.{md,mdx}'
